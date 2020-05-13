@@ -1,0 +1,34 @@
+Jimmy Fallon  Program
+Simulates a call center receiving a number of calls inquiring about the 240 available tickets.
+It does so by taking a number of callers imputed thru the main functions arguments. 
+Then running a loop to create that many threads of an “incoming phone call” function 
+then another loop collecting all those threads at the end.
+The main function also initializes 4 semaphores 
+A lock preventing multiple threads from accessing the number of current threads with IDs
+This allows each thread to get its own unique ID while keeping track of #threads created
+A line semaphore only allowing 5 threads to access a “line” at a time
+An operator semaphore only allowing threads to 3 threads to access an “operator” at a time 
+A purchase semaphore locking a variable of 240 that will get decremented with each purchase 
+The main loop end with destroying these semaphore and printing the results of the simulation
+
+The PhoneCall function 
+Hold 5 print lines simulating each step of a phone call to purchase a ticket
+
+1)Thread [THREAD_ID] is calling line, busy signal
+2)Thread [THREAD_ID] has available line, call ringing
+3)Thread [THREAD_ID] is speaking to operator
+4)Thread [THREAD_ID] has bought a ticket!
+5)Thread [THREAD_ID] has hung up!
+
+First the function waits via sem_wait() for the for the next_id var to become available then
+increments it buy 1 and sets its ID to that number
+
+Then loops while no lines are available, printing (1) and spleeping for a few seconds before trying again
+
+Once past the loop takes an available line, prints (2) and waits for an operator to become available.
+
+Once an operator is available print (3) sleep a few seconds then print (4)
+
+Gives opens up an operator then opens up a line via sem_post()
+
+Decrements the ticket available variable then finishes. 
